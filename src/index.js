@@ -3,12 +3,15 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { RoomsProvider } from './context';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <RoomsProvider>
+      <Router>
+        <App />
+      </Router>
+    </RoomsProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

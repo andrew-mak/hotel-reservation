@@ -69,11 +69,21 @@ h6 {
   background: transparent;
   color: var(--primaryColor);
 }
-.loading {
-  text-transform: capitalize;
-  text-align: center;
-  margin-top: 3rem;
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #af9a7d;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  margin: 2rem auto;
+  animation: spin 1.6s linear infinite;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .error {
   text-align: center;
   text-transform: uppercase;
