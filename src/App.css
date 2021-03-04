@@ -375,7 +375,7 @@ h6 {
 .single-room {
   padding: 5rem 0 0 0;
 }
-.single-room-assets/images {
+.single-room-images {
   width: 80vw;
   margin: 0 auto;
   display: grid;
@@ -383,7 +383,7 @@ h6 {
   grid-row-gap: 2rem;
   grid-column-gap: 50px;
 }
-.single-room-assets/images img {
+.single-room-images img {
   width: 100%;
   display: block;
 }
