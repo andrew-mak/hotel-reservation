@@ -8,7 +8,6 @@ const FeaturedRooms = () => {
   const { roomsState } = useContext(RoomsContext);
   const { featuredRooms } = roomsState;
 
-  console.log(featuredRooms);
   let rooms;
   if (featuredRooms) {
     rooms = featuredRooms.map(room => {

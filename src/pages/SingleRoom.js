@@ -20,9 +20,6 @@ const SingleRoom = () => {
     };
   }, [slug, getRoom, setRoomState]);
 
-  console.log('Render Single room');
-  console.log('state: ', roomState);
-
   return (
     errorState
       ? <div className="error">
