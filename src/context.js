@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import items from './data';
+import client from './contentful';
 
 const RoomsContext = createContext();
 
@@ -8,7 +8,8 @@ const RoomsProvider = ({ children }) => {
     rooms: [],
     sortedRooms: [],
     featuredRooms: [],
-    loading: false
+    loading: true,
+    error: false
   });
   const [filterState, setFilterState] = useState({
     type: 'all',
@@ -24,27 +25,42 @@ const RoomsProvider = ({ children }) => {
 
 
   useEffect(() => {
-    if (!roomsState.loading) {
-      const rooms = formatData(items);
-      const featuredRooms = rooms.filter(room => room.featured === true);
-      const maxPrice = Math.max(...rooms.map(item => item.price));
-      const maxSize = Math.max(...rooms.map(item => item.size));
 
-      setRoomsState({
-        rooms,
-        featuredRooms,
-        sortedRooms: rooms,
-        loading: false
-      });
+    client.getEntries({
+      content_type: 'newHotel',
+      order: "fields.price"
+    })
+      .then(response => {
 
-      setFilterState({
-        ...filterState,
-        price: maxPrice,
-        maxPrice,
-        maxSize
+        const rooms = formatData(response.items);
+        const featuredRooms = rooms.filter(room => room.featured === true);
+        const maxPrice = Math.max(...rooms.map(item => item.price));
+        const maxSize = Math.max(...rooms.map(item => item.size));
+
+        setRoomsState({
+          rooms,
+          featuredRooms,
+          sortedRooms: rooms,
+          loading: false,
+          error: false
+        });
+
+        setFilterState(curState => ({
+          ...curState,
+          price: maxPrice,
+          maxPrice,
+          maxSize
+        }))
       })
-    }
-  }, [roomsState.loading]);
+      .catch(error => {
+        setRoomsState(curState => ({
+          ...curState,
+          error: true
+        }))
+        console.log(error);
+      })
+
+  }, []);
 
   const formatData = items => {
     const tempItems = items.map(item => {
@@ -95,17 +111,14 @@ const RoomsProvider = ({ children }) => {
 
     if (pets) tempRooms = tempRooms.filter(room => room.pets === true);
 
-    setRoomsState(curState => {
-      const updObj = {
-        ...curState,
-        sortedRooms: tempRooms
-      }
-      return updObj
-    })
+    setRoomsState(curState => ({
+      ...curState,
+      sortedRooms: tempRooms
+    }))
   }, [filterState, roomsState.rooms])
 
   return (
-    <RoomsContext.Provider value={{ roomsState, getRoom, filterState, filterChangedHandler }}>
+    <RoomsContext.Provider value={{ roomsState, filterState, getRoom, filterChangedHandler }}>
       {children}
     </RoomsContext.Provider>
   )

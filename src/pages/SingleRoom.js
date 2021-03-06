@@ -23,7 +23,7 @@ const SingleRoom = () => {
   return (
     errorState
       ? <div className="error">
-        < h3 > no such room could be found...</h3 >
+        <h3> no such room could be found...</h3 >
         <Link to="/rooms" className="btn-primary">back to rooms</Link>
       </div >
       : roomState
@@ -55,7 +55,7 @@ const SingleRoom = () => {
           <section className="room-extras">
             <h6>extras</h6>
             <ul className="extras">
-              {roomState.extras.map((item, index) =><li key={index} >{item}</li>)}
+              {roomState.extras.map((item, index) => <li key={index} >{item}</li>)}
             </ul>
           </section>
         </>

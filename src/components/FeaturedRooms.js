@@ -6,9 +6,9 @@ import Loading from './Loading';
 
 const FeaturedRooms = () => {
   const { roomsState } = useContext(RoomsContext);
-  const { featuredRooms } = roomsState;
+  const { featuredRooms, loading, error } = roomsState;
 
-  let rooms;
+  let rooms = null;
   if (featuredRooms) {
     rooms = featuredRooms.map(room => {
       return <Room key={room.id} room={room} />
@@ -19,7 +19,11 @@ const FeaturedRooms = () => {
     <section className="featured-rooms">
       <Title title="Fetured rooms" />
       <div className="featured-rooms-center" >
-        {rooms ? rooms : <Loading /> }
+        {
+          error ? <div className="error"><h4>Sorry, an error occurred when loading data. Please, try again.</h4></div>
+            : loading ? <Loading />
+              : rooms ? rooms : null
+        }
       </div>
     </section>
   )

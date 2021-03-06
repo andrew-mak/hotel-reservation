@@ -5,13 +5,14 @@ import { withRoomConsumer } from '../context';
 import Loading from './Loading';
 
 const RoomContainer = ({ context }) => {
-  const { loading, sortedRooms, rooms } = context.roomsState;
-  if (loading) return <Loading />
+  const { loading, error, sortedRooms, rooms } = context.roomsState;
   return (
-    <>
-      <RoomsFilter rooms={rooms} />
-      <RoomsList rooms={sortedRooms} />
-    </>
+    error ? <div className="error" ><h4>Sorry, an error occurred when loading data. Please, try again.</h4></div>
+      : loading ? <Loading />
+        : <>
+          <RoomsFilter rooms={rooms} />
+          <RoomsList rooms={sortedRooms} />
+        </>
   )
 }
 
